@@ -1,18 +1,21 @@
 import { useEffect, useRef } from "react";
 
-export const Video = ({stream}) => {
-    const videoRef = useRef();
-    useEffect(() => {
-        if (videoRef && videoRef.current) {
-            videoRef.current.srcObject = stream;
-        }
-      }, [videoRef,stream])
-    
-      return (
-        <div>
-          <div>
-            <video style={{borderRadius: 10}} ref={videoRef} muted width="100%" autoPlay={true} playsInline={true} />
-          </div>
-        </div>
-      )
+export function Video({ stream, muted = false }) {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current && stream) {
+      videoRef.current.srcObject = stream;
+    }
+  }, [stream]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay     // This is crucial for both video and audio
+      playsInline  // Important for mobile browsers
+      muted={muted}
+      style={{ width: "100%", borderRadius: "8px" }}
+    />
+  );
 }
